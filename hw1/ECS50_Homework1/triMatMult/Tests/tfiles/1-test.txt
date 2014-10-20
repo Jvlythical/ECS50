@@ -1,2 +1,0 @@
-/home/matthew/Dropbox/ECS/50/Homework1/singleDMatMult/Tests/matA/1-test.txt
-/home/matthew/Dropbox/ECS/50/Homework1/singleDMatMult/Tests/matB/1-test.txt

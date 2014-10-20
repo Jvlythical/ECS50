@@ -1,3 +1,0 @@
-student: Matthew Butner, 1234
-student: Steven Butner, 5678
-notes: We had dificulties solving change.py. It took us a long time to figure out how to make change even though we could do it intuitively. We were not able to finish html2latex.py ...
