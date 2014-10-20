@@ -1,0 +1,1 @@
+Please enter the number's base: Please enter the number: Please enter the new base: GAG base 22 is 89D base 31

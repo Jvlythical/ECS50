@@ -1,0 +1,1 @@
+Please enter the number's base: Please enter the number: Please enter the new base: 89576981 base 12 is 10010110001010111000011110001 base 2

@@ -1,0 +1,1 @@
+Please enter the number's base: Please enter the number: Please enter the new base: ZACK base 36 is 4584B0 base 13
