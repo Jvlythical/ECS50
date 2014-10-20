@@ -1,6 +1,6 @@
 .data
-	string1:	.string		"test"
-	string2:	.string		"pest"
+	string1:	.string		"tests"
+	string2:	.string		"pests"
 
 .text
 
@@ -14,14 +14,20 @@ strlen:
 	movb	$0x0,	 %al
 
 	strlen_loop:	
-		sub		-0x4(%rbp),	%edi		
-		incl	-0x4(%rbp)
-		
-		movb	(%edi),	%ah
-		cmp		%al,	%ah
-		jne		strlen_loop
+		sub		-0x4(%rbp),	%edi	#Subtract i counter from character address	
+		incl	-0x4(%rbp)			#inc i counter
+	
+		#FIX HERE
+		movl	(%edi),	%ebx
+		shr		$8, %ebx
+		#END FIX
+
+		movb	(%edi),	%ah			#Move the character int ah
+		cmp		%al,	%ah			#Check the character for null byte
+		jne		strlen_loop			#Re-loop if not null byte
 
 	mov	-0x4(%rbp),	%eax	#Return string length
+	sub $0x1, %eax			
 
 	leaveq
 	retq
