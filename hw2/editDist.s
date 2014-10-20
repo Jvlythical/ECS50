@@ -9,28 +9,33 @@
 strlen:
 	push	%rbp
 	mov		%rsp,	%rbp
-	sub		$0x8,	%rsp
-	movl 	$0x0,	-0x4(%rbp)
-	movb	$0x0,	 %al
-
-	strlen_loop:	
-		sub		-0x4(%rbp),	%edi	#Subtract i counter from character address	
-		incl	-0x4(%rbp)			#inc i counter
+	sub		$0x8,	%rsp		
 	
-		#FIX HERE
-		movl	(%edi),	%ebx
-		shr		$8, %ebx
-		#END FIX
+	movl 	$0x0,	-0x4(%rbp)	#Initialize i = 0
+	movb	$0x0,	 %al		#Set the nullbyte value
 
-		movb	(%edi),	%ah			#Move the character int ah
-		cmp		%al,	%ah			#Check the character for null byte
-		jne		strlen_loop			#Re-loop if not null byte
+	strlen_loop:
+		movl	(%edi),	%ebx	#Get the next word
 
-	mov	-0x4(%rbp),	%eax	#Return string length
-	sub $0x1, %eax			
+		strlen_sub_loop:
+			
+			cmp		%bl,	%al			#Check the character for null byte
+			je		ret_len				#Re-loop if not null byte
 
-	leaveq
-	retq
+			incl	-0x4(%rbp)			#inc i counter
+			shr		$8, 	%ebx
+
+			cmp		$0x0, %ebx
+			jne		strlen_sub_loop
+
+		add		$0x4,	%edi	#Compute the word address 	
+		jmp		strlen_loop
+
+	ret_len:
+		mov	-0x4(%rbp),	%eax	#Return string length
+
+		leaveq
+		retq
 
 main:	
 	push	%rbp
