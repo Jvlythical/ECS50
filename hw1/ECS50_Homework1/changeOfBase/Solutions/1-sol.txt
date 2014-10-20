@@ -1,0 +1,1 @@
+Please enter the number's base: Please enter the number: Please enter the new base: 213 base 5 is 72 base 8

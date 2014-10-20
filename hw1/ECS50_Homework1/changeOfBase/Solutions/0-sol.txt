@@ -1,0 +1,1 @@
+Please enter the number's base: Please enter the number: Please enter the new base: 13687 base 10 is 13687 base 10
