@@ -37,6 +37,46 @@ strlen:
 		leaveq
 		retq
 
+edit_dist:
+	push	%rbp
+	mov 	%rsp, $rbp
+	sub		$0x24, %rsp
+
+	mov 	$string1, %edi
+	callq	strlen
+	mov 	%eax, -0x16(%rbp)
+	
+	mov		$string2, %edi
+	callq	strlen
+	mov		%eax, -0x24(%rbp)
+	mov		%eax, %ebx
+
+	#if strlen_2 < strlen_1 jump to loop
+	cmp		%ebx, -0x16(%rbp)
+	jl		ed_for
+	
+	#else	mov strlen_2 to ebx
+	mov 	-0x16(%rbp), %ebx
+
+	ed_for:
+		
+
+		dec	%ebx
+		dec %ecx
+
+		cmp %ecx, $0x0
+		jne	ed_for
+
+		
+		mov	$0x4, %ecx
+
+		cmp	%ebx, $0x0
+		jne ed_for
+
+	ret_dist:
+		leaveq
+		retq
+
 main:	
 	push	%rbp
 	mov		%rsp,	%rbp
