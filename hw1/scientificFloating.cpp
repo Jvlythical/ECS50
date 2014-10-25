@@ -31,7 +31,7 @@ int change_base_10(int base, string num) {
 	for(int i = num.length() - 1; i >= 0; i--) {
 		int margin, exp = 1;
 
-		for(int n = 0; n < num.length() - 1 - i; n++) exp = exp * base; 
+		for(unsigned int n = 0; n < num.length() - 1 - i; n++) exp = exp * base; 
 		if(num[i] <= '9' && num[i] >= '0') margin = num[i] - '0';
 		else if (num[i] <= 'z' && num[i] >= 'a') margin = num[i] - 'a' + 10;
 		else margin = num[i] - 'A' + 10;
