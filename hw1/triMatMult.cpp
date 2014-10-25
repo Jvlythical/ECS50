@@ -51,7 +51,7 @@ vector<int> read_matx(char *file_name) {
 }
 
 void print_matx(vector<int> matx) {
-	for(int i = 0; i < matx.size(); i++) {
+	for(unsigned int i = 0; i < matx.size(); i++) {
 		cout << matx[i] << " ";
 	}
 
@@ -64,7 +64,7 @@ void print_matx(vector<int> matx) {
  */
 
 int main(int argc, char *argv[]) {
-	int row_start = 0, col_size = 0, count = 0;
+	int row_start = 0, col_size = 0;
 	vector<int> matx_1, matx_2, matx_3, row, col, inc;
 	string line;
 	ifstream file(argv[1]);
