@@ -1,5 +1,5 @@
 .data
-	string1:	.string		"tests"
+	string1:	.string		"testssss"
 	string2:	.string		"pests"
 
 .text
@@ -39,12 +39,12 @@ strlen:
 
 edit_dist:
 	push	%rbp
-	mov 	%rsp, $rbp
+	mov 	%rsp, %rbp
 	sub		$0x24, %rsp
 
 	mov 	$string1, %edi
 	callq	strlen
-	mov 	%eax, -0x16(%rbp)
+	movl 	%eax, -0x16(%rbp)
 	
 	mov		$string2, %edi
 	callq	strlen
@@ -64,13 +64,13 @@ edit_dist:
 		dec	%ebx
 		dec %ecx
 
-		cmp %ecx, $0x0
+		cmp $0x0, %ecx
 		jne	ed_for
 
 		
 		mov	$0x4, %ecx
 
-		cmp	%ebx, $0x0
+		cmp	0x0, %ebx
 		jne ed_for
 
 	ret_dist:
@@ -82,7 +82,7 @@ main:
 	mov		%rsp,	%rbp
 
 	mov 	$string1,	%edi	#Move address of string one to edi
-	callq	strlen
+	callq	edit_dist
 
 	mov		$0x0,	%eax 
 
