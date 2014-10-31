@@ -1,0 +1,30 @@
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/0-test.txt ECS50_Homework1/triMatMult/Tests/matB/0-test.txt > outputs/output_0
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/1-test.txt ECS50_Homework1/triMatMult/Tests/matB/1-test.txt > outputs/output_1
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/2-test.txt ECS50_Homework1/triMatMult/Tests/matB/2-test.txt > outputs/output_2
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/3-test.txt ECS50_Homework1/triMatMult/Tests/matB/3-test.txt > outputs/output_3
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/4-test.txt ECS50_Homework1/triMatMult/Tests/matB/4-test.txt > outputs/output_4
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/5-test.txt ECS50_Homework1/triMatMult/Tests/matB/5-test.txt > outputs/output_5
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/6-test.txt ECS50_Homework1/triMatMult/Tests/matB/6-test.txt > outputs/output_6
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/7-test.txt ECS50_Homework1/triMatMult/Tests/matB/7-test.txt > outputs/output_7
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/8-test.txt ECS50_Homework1/triMatMult/Tests/matB/8-test.txt > outputs/output_8
+Running: ./a.out ECS50_Homework1/triMatMult/Tests/matA/9-test.txt ECS50_Homework1/triMatMult/Tests/matB/9-test.txt > outputs/output_9
+Running: diff ECS50_Homework1/triMatMult/Solutions/0-sol.txt outputs/output_0
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/1-sol.txt outputs/output_1
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/2-sol.txt outputs/output_2
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/3-sol.txt outputs/output_3
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/4-sol.txt outputs/output_4
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/5-sol.txt outputs/output_5
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/6-sol.txt outputs/output_6
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/7-sol.txt outputs/output_7
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/8-sol.txt outputs/output_8
+No difference
+Running: diff ECS50_Homework1/triMatMult/Solutions/9-sol.txt outputs/output_9
+No difference

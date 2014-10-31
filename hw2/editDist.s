@@ -1,5 +1,5 @@
 .data
-	string1:	.string		"tests"
+	string1:	.string		"testssss"
 	string2:	.string		"pests"
 
 .text
@@ -60,6 +60,7 @@ strlen:
 
 #int edit_dist(*string1, *string2)
 edit_dist:
+<<<<<<< HEAD
 	push	%ebp
 	mov 	%esp, %ebp
 
@@ -106,6 +107,15 @@ edit_dist:
 		inc 	%ebx
 		cmp 	%ebx, %ecx
 		jlt 	str1_for
+=======
+	push	%rbp
+	mov 	%rsp, %rbp
+	sub		$0x24, %rsp
+
+	mov 	$string1, %edi
+	callq	strlen
+	movl 	%eax, -0x16(%rbp)
+>>>>>>> 36ccb6ac0cd0f1ea05ead60b843050eb80579f75
 	
 	mov 	$0x0, %ebx
 	mov 	-0x14(%ebp), %ecx
@@ -142,6 +152,7 @@ edit_dist:
 			mov 	(%ebx, %eax, 1), %ecx
 			mov 	%ecx, -0x24(%ebp)
 	
+<<<<<<< HEAD
 		# z = M[a-1][b-1] + (A[a-1] == B[b-1] ? 0 : 2)
 			mov 	-0x18(%ebp), %eax
 			mul 	-0x14(%ebp)
@@ -190,6 +201,25 @@ edit_dist:
 		dec	-0x18(%rbp)
 		cmp	-0x18(%ebp), strlen1
 		jl	ed_str1_for
+=======
+	#else	mov strlen_2 to ebx
+	mov 	-0x16(%rbp), %ebx
+
+	ed_for:
+		
+
+		dec	%ebx
+		dec %ecx
+
+		cmp $0x0, %ecx
+		jne	ed_for
+
+		
+		mov	$0x4, %ecx
+
+		cmp	0x0, %ebx
+		jne ed_for
+>>>>>>> 36ccb6ac0cd0f1ea05ead60b843050eb80579f75
 
 	ret_dist:
 		mov 	-0x2c(%ebp), %ebx
@@ -208,7 +238,7 @@ main:
 	mov		%rsp,	%rbp
 
 	mov 	$string1,	%edi	#Move address of string one to edi
-	callq	strlen
+	callq	edit_dist
 
 	mov		$0x0,	%eax 
 
