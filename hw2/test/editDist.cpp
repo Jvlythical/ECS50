@@ -49,5 +49,5 @@ size_t edit_distance(const string& A, const string& B)
 
 int main()
 {
-    cout << edit_distance("donuts", "picture") << endl;
+    cout << edit_distance("sitting", "kitten") << endl;
 }

@@ -1,24 +1,27 @@
 .data
-	num1: 		.double 	1.1
-	num2: 		.double 	1.2
-	sum:		.double 	0.0
+num1:
+        .long 10
+        .long 256
+num2:
+        .long 30
+        .long 40
 
 .text
-
 .global main
 
 main:
-	push	%rbp
-	mov		%rsp, %rbp
-	sub		$0x8, %rsp
+#upper 32 bits will be in EDX
+#lower 32 bits will be in EAX
+#current element will be in ecx
+        movl num1, %edx #move first half of num1 into edx
+        movl num1+4, %eax  #move 2nd half of num1 into eax
+        addl num2+4, %eax   #add 2nd half of num2 into eax
+        jnc nocarry
+        addl num2, %edx
+        addl $1, %edx   #since there's carry, add 1
+        jmp done
 
-	movsd 	num1, %xmm0	#Move num1 to ebx
-	addsd	num2, %xmm0 #Add num 2 to rax
-	movsd 	%xmm0, sum		#Save contents to sum
-	
-	movl 	sum, %eax	#Move lower 32 bits to eax
-	movl	sum + 4, %edx	#Move upper 32 bits to edx
-
-	mov		$0x0, %eax
-	leaveq
-	retq
+nocarry:
+        addl num2, %edx
+done:
+        movl %eax, %eax
