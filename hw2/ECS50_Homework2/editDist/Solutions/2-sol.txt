@@ -1,0 +1,13 @@
+Reading symbols from /home/matthew/Dropbox/ECS/50/Homework2/editDist/editDist.out...done.
+(gdb) Breakpoint 1 at 0x80480b8: file editDist.s, line 82.
+(gdb) Breakpoint 2 at 0x8048130: file editDist.s, line 121.
+(gdb) Starting program: /home/matthew/Dropbox/ECS/50/Homework2/editDist/editDist.out 
+
+Breakpoint 1, _start () at editDist.s:82
+(gdb) (gdb) (gdb) Continuing.
+
+Breakpoint 2, done () at editDist.s:121
+121	in editDist.s
+(gdb) $1 = 13
+(gdb) Kill the program being debugged? (y or n) [answered Y; input not from terminal]
+(gdb) 

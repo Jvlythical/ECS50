@@ -1,0 +1,14 @@
+Reading symbols from /home/matthew/Dropbox/ECS/50/Homework2/64bitAdd/64bitAdd.out...done.
+(gdb) Breakpoint 1 at 0x8048074: file 64bitAdd.s, line 26.
+(gdb) Breakpoint 2 at 0x8048090: file 64bitAdd.s, line 39.
+(gdb) Starting program: /home/matthew/Dropbox/ECS/50/Homework2/64bitAdd/64bitAdd.out 
+
+Breakpoint 1, _start () at 64bitAdd.s:26
+(gdb) (gdb) (gdb) (gdb) (gdb) Continuing.
+
+Breakpoint 2, done () at 64bitAdd.s:39
+39	in 64bitAdd.s
+(gdb) $1 = 313331120
+(gdb) $2 = 220011470
+(gdb) Kill the program being debugged? (y or n) [answered Y; input not from terminal]
+(gdb) 

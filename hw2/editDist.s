@@ -1,6 +1,8 @@
 .data
-	string1:	.string		"donuts"
-	string2:	.string		"picture"
+	#string1:	.string		"donuts"
+	#string2:	.string		"picture"
+	string1: 	.space 100
+	string2: 	.space 100
 
 .text
 
@@ -240,5 +242,6 @@ main:
 
 	mov		$0x0,	%eax 
 
+done:
 	leave
 	ret
