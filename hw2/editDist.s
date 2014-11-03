@@ -63,8 +63,8 @@ edit_dist:
 	mov 	%esp, %ebp
 
 #variable declarations
-	mov		%edi, -0x8(%ebp)	# *string1
-	mov		%edx, -0xc(%ebp)	# *string2
+	mov 	%edi, -0x8(%ebp)	# *string1
+	mov 	%edx, -0xc(%ebp)	# *string2
 	movl	$0x0, -0x10(%ebp)	# int strlen1
 	movl	$0x0, -0x14(%ebp)	# int strlen2
 	movl	$0x1, -0x18(%ebp)	# int i
