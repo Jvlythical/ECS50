@@ -1,6 +1,4 @@
 .data
-	#string1:	.string		"donuts"
-	#string2:	.string		"picture"
 	string1: 	.space 100
 	string2: 	.space 100
 
@@ -239,8 +237,6 @@ main:
 	mov 	$string1,	%edi	#Move address of string one to edi
 	mov 	$string2, 	%edx
 	call	edit_dist
-
-	mov		$0x0,	%eax 
 
 done:
 	leave
