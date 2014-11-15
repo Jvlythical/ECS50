@@ -1,2 +1,0 @@
-/home/matthew/Dropbox/ECS/50/Homework3/matmult/Tests/mata/0-test.txt
-/home/matthew/Dropbox/ECS/50/Homework3/matmult/Tests/matb/0-test.txt
