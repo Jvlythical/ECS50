@@ -3,7 +3,6 @@
 
 .text
 
-max:
 	
 
 knapsack:
@@ -32,6 +31,7 @@ for_each_item:
 if:
 	movl 20(%ebp), %ebx			#move capacity to EBX
 	movl 8(%ebp), %esi			#move *weight into esi
+	movl 12(%ebp), %edi			#move *value into edi
 	movl (%esi, %ecx, wordsize), %esi	#move weight[i] into esi
 	movl (%edi, %ecx, wordsize), %edi	#move values[i] into edi
 	subl %esi, %ebx				#subtract weights[i] from capacity
@@ -65,20 +65,22 @@ max:
 	subl %ecx, %eax			#subtract i from num_items
 	subl $1, %eax			#subtract 1 from num_items
 	push %eax			#push new num_items onto stack
-	movl (%edi, wordsize), %edi	#move values + 1 into *values
-	movl (%edi, %ecx, wordsize)	#move values+1+i into *values
+	movl $1, %ebx
+	leal (%edi,%ebx,wordsize), %edi	#move values + 1 into *values
+	movl (%edi, %ecx, wordsize), %edi	#move values+1+i into *values
 	push %edi			#push new *values onto the stack
-	movl (%esi, wordsize), %esi	#move weights + 1 into *weights
-	movl (%esi, %ecx, wordsize)	#move weights + 1 + 1 into *weights
+	movl (%esi,%ebx, wordsize), %esi	#move weights + 1 into *weights
+	movl (%esi, %ecx, wordsize), %esi	#move weights + 1 + 1 into *weights
 	push %esi			#push new *weights onto stack
 	call knapsack			#call knapsack after pushing new arguments onto stack, then we can find b
 	movl %eax, %ebx			#move best value returned in eax, into ebx for b
-	movl -8(ebp), %edx		#move best_value, into edx for a
+	movl -8(%ebp), %edx		#move best_value, into edx for a
 	cmpl %ebx, %edx			#compare if a greater than b
 	ja ret_a			#if a is greater than b, go to ret_a to return a
 	movl %ebx, %eax			#else move b into eax and return
 	ret
 ret_a:
 	movl %edx, %eax			#move a into eax and return
+	leave
 	ret
 	
