@@ -18,7 +18,7 @@ knapsack:
 	push %ebp				#prologue
 	mov %esp, %ebp
 #declare variables
-	subl $8, %esp				#make room for i and best_value, i=-4(%ebp), best_value=-8(%bp)
+	subl $12, %esp				#make room for i and best_value, i=-4(%ebp), best_value=-8(%bp), -12(%ebp) = b
 	movl 24(%ebp), %edx			#move cur_value into a register
 	movl %edx, -8(%ebp)			#move cur_value into best_value
 	xorl %ecx, %ecx				#set i to 0
@@ -45,16 +45,46 @@ if:
 	jmp for_each_item			#jump to for loop
 # best_value = max(best_value, knapsack(weights + i + 1, values + i + 1, num_items - i - 1, capacity - weights[i], cur_value + values[i]));
 find_best_value:
+	#call max
+	#movl %eax, -8(%ebp)			#store w/e returned from max into best_value
+	#incl %ecx				#i++
+	#movl %ecx, -4(%ebp)		#store ecx in i
+	#jmp for_each_item			#jump to for loop
+	movl 24(%ebp), %eax			#move cur_value into eax
+	addl (%edi), %eax				#addl cur_value and values[i], store in eax
+	push %eax								#push new cur value onto stack
+	movl 20(%ebp),%eax			#move capacity into eax
+	subl (%esi), %eax				#subtract seights[i] from capacity
+	push %eax								#push new capacity onto stack
+	movl 16(%ebp), %eax			#move num_items into eax
+	movl -4(%ebp), %ecx	
+	subl %ecx, %eax					#subtract i from num_items
+	subl $1, %eax						#subtract 1 from num_items
+	push %eax								#push new num_items onto stack
+	movl $1, %ebx
+	movl -4(%ebp), %ecx			#get i adn put into ecx
+	leal (%edi,%ebx,wordsize), %edi			#move calues+1+i into *values
+	leal (%edi, %ecx, wordsize), %edi
+	push %edi
+	leal (%esi, %ebx, wordsize), %esi		#same for *weights
+	leal (%esi, %ecx, wordsize), %esi
+	push %esi
+	call knapsack
+	movl %eax, -12(%ebp)					#store returned value from knapsack, into stack, or b
+
+	push %eax										##testing, push b onto stack
+	movl -8(%ebp), %eax					##move a, or best_value, into eax,then push
+	push %eax										#push a onto stack for max
+
 	call max
-	movl %eax, -8(%ebp)			#store w/e returned from max into best_value
-	incl %ecx				#i++
-	movl %ecx, -4(%ebp)		#store ecx in i
-	jmp for_each_item			#jump to for loop
+	movl %eax, -8(%ebp)						#move return value from max, into best_value
+	incl %ecx		
+	movl %ecx, -4(%ebp)					
+	jmp for_each_item							#after storing result in best_value, increment i and repeat loop
 
 #return best_value
 ret_best_value:
 	movl -8(%ebp), %eax			#store best_value into eax and then return	
-  
 	leave
 	ret
 
@@ -62,28 +92,11 @@ ret_best_value:
 #ebx will be b
 #edx will be a
 max:
-	movl 24(%ebp), %eax		#move cur_value into eax
-	addl (%edi), %eax			#addl cur_value and values[i], store in eax
-	push %eax			#push new cur_value onto stack
-	movl 20(%ebp), %eax		#move capacity into eax
-	subl (%esi), %eax			#subtract weights[i] from capacity
-	push %eax			#push new capcity onto stack
-	movl 16(%ebp), %eax		#move num_items into eax
-	movl -4(%ebp), %ecx
-	subl %ecx, %eax			#subtract i from num_items
-	subl $1, %eax			#subtract 1 from num_items
-	push %eax			#push new num_items onto stack
-	movl $1, %ebx
-	movl -4(%ebp), %ecx	#get i and put into ecx
-	leal (%edi,%ebx,wordsize), %edi	#move values + 1 into *values
-	leal (%edi, %ecx, wordsize), %edi	#move values+1+i into *values
-	push %edi			#push new *values onto the stack
-	leal (%esi,%ebx, wordsize), %esi	#move weights + 1 into *weights
-	leal (%esi, %ecx, wordsize), %esi	#move weights + 1 + i into *weights
-	push %esi			#push new *weights onto stack
-	call knapsack			#call knapsack after pushing new arguments onto stack, then we can find b
-	movl %eax, %ebx			#move best value returned in eax, into ebx for b
-	movl -8(%ebp), %edx		#move best_value, into edx for a
+	push %ebp
+	movl %esp, %ebp
+
+	movl 12(%ebp), %ebx			#move returned value from knapsack, into ebx forba
+	movl 8(%ebp), %edx		#move best_value, into eax for a
 	cmpl %ebx, %edx			#compare if a greater than b
 	ja ret_a			#if a is greater than b, go to ret_a to return a
 	movl %ebx, %eax			#else move b into eax and return
