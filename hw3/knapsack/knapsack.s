@@ -50,18 +50,14 @@ if:
 	incl %ecx				#else i++ and jump to for loop
 	movl %ecx, i(%ebp) 		#move ecx into i
 	jmp for_each_item			#jump to for loop
+	
 # best_value = max(best_value, knapsack(weights + i + 1, values + i + 1, num_items - i - 1, capacity - weights[i], cur_value + values[i]));
 find_best_value:
-	#call max
-	#movl %eax, best_value(%ebp)			#store w/e returned from max into best_value
-	#incl %ecx				#i++
-	#movl %ecx, i(%ebp)		#store ecx in i
-	#jmp for_each_item			#jump to for loop
 	movl cur_value(%ebp), %eax			#move cur_value into eax
 	addl (%edi), %eax				#addl cur_value and values[i], store in eax
 	push %eax								#push new cur value onto stack
 	movl capacity(%ebp),%eax			#move capacity into eax
-	subl (%esi), %eax				#subtract seights[i] from capacity
+	subl (%esi), %eax				#subtract weights[i] from capacity
 	push %eax								#push new capacity onto stack
 	movl num_items(%ebp), %eax			#move num_items into eax
 	movl i(%ebp), %ecx	
@@ -79,10 +75,9 @@ find_best_value:
 	call knapsack
 	movl %eax, b(%ebp)					#store returned value from knapsack, into stack, or b
 
-	push %eax										##testing, push b onto stack
-	movl best_value(%ebp), %eax					##move a, or best_value, into eax,then push
+	push %eax										#testing, push b onto stack
+	movl best_value(%ebp), %eax					#move a, or best_value, into eax,then push
 	push %eax										#push a onto stack for max
-
 	call max
 	movl %eax, best_value(%ebp)						#move return value from max, into best_value
 	incl %ecx		
@@ -93,7 +88,8 @@ find_best_value:
 ret_best_value:
 	movl best_value(%ebp), %eax			#store best_value into eax and then return	
 	leave
-	ret
+
+	ret $36
 
 #return a > b ? a : b;
 #ebx will be b
@@ -108,9 +104,10 @@ max:
 	ja ret_a			#if a is greater than b, go to ret_a to return a
 	movl %ebx, %eax			#else move b into eax and return
 	leave
-	ret
+	ret $12
 ret_a:
 	movl %edx, %eax			#move a into eax and return
 	leave
-	ret
+
+	ret $12
 
