@@ -78,7 +78,7 @@ knapsack:
 			
 			call knapsack
 
-			addl $20, %esp			##TEST
+			addl $20, %esp			
 
 			movl %eax, %ebx
 			push %ebx		
@@ -88,7 +88,7 @@ knapsack:
 			
 			call max
 
-			addl $8, %esp			##TEST
+			addl $8, %esp			
 
 			movl %eax, best_value(%ebp)
 
