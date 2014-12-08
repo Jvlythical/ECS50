@@ -1,5 +1,7 @@
+#include <iostream>
+#include <cmath>
+
 #include "MyFloat.h"
-#include<iostream>
 
 using namespace std;
 
@@ -47,6 +49,27 @@ ostream& operator<<(std::ostream &strm, const MyFloat &f){
 
 
 MyFloat MyFloat::operator+(const MyFloat& rhs) const{
+	unsigned int rexp_1 = exponent - 127, mant_1 = mantissa + pow(2, 23);
+	unsigned int rexp_2 = rhs.mantissa - 127, mant_2 = rhs.mantissa + pow(2, 23);
+
+	if(rexp_1 < rexp_2) {
+		int diff = rexp_2 - rexp_1;
+
+		mant_2 = mant_2 * pow(2, diff);
+		exponent = rexp_2;
+	} else {
+		int diff = rexp_1 - rexp_2;
+
+		mant_1 = mant_1 * pow(2, diff);
+	}
+	
+	
+	mantissa = mant_1 + mant_2;
+
+	if(carryWouldHappen(mant_1, mant_2)) {
+		mantissa = mantissa / 2;
+		++exponent;
+	}
 
 	return *this;
 }
