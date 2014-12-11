@@ -18,10 +18,7 @@
     	MyFloat mf1(f1);
     	MyFloat mf2(f2);
 
-
-    	cout << mf1 << ' '<< argv[2][0] << ' ' << mf2 << endl;
-    	
-    	return 0;
+    	//cout << mf1 << ' '<< argv[2][0] << ' ' << mf2 << endl;
 
     	if(argv[2][0] == '+'){ //addition
     		//fres = f1 + f2;
