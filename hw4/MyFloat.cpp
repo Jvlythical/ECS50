@@ -52,15 +52,40 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 	unsigned int rexp_1 = exponent - 127, mant_1 = mantissa + pow(2, 23);
 	unsigned int rexp_2 = rhs.mantissa - 127, mant_2 = rhs.mantissa + pow(2, 23);
 
+	if (mantissa == rhs.mantissa && exponent == rhs.exponent && sign != rhs.sign)	//opposite but equal case
+	{
+			this.exponent == 0;
+			this.mantissa == 0;
+			return *this;
+	}
+
+	if ((exponent !=0 && mantissa != 0) && (rhs.exponent == 0 && rhs.mantissa == 0))	//if rhs == 0
+	{
+			return *this;
+	}
+
+	else if ((exponent==0 && mantissa == 0) && (rhs.exponent != 0 && rhs.mantissa !=0))		//if lhs == 0
+	{
+			this.sign = rhs.sign;
+			this.exponent = rhs.exponent;
+			this.mantissa = rhs.mantissa;
+			return *this;
+	}
+
 	if(rexp_1 < rexp_2) {
 		int diff = rexp_2 - rexp_1;
-
-		mant_2 = mant_2 * pow(2, diff);
+		if (diff <= 8)												//if diff <=8, left shift mantissa of larger number
+			mant_2 = mant_2 * pow(2, diff);
+		else
+			mant_1 = mant_1 / pow(2, diff);			//if diff > 8 right shift mantissa of smaller number
 		exponent = rexp_2;
-	} else {
+	} 
+	else {
 		int diff = rexp_1 - rexp_2;
-
-		mant_1 = mant_1 * pow(2, diff);
+		if (diff <= 8)
+			mant_1 = mant_1 * pow(2, diff);
+		else
+			mant_2 = mant_2 / pow(2,diff);
 	}
 	
 	
