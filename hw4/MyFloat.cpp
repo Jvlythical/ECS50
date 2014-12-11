@@ -51,25 +51,25 @@ ostream& operator<<(std::ostream &strm, const MyFloat &f){
 MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 	unsigned int rexp_1 = exponent - 127, mant_1 = mantissa + pow(2, 23);
 	unsigned int rexp_2 = rhs.mantissa - 127, mant_2 = rhs.mantissa + pow(2, 23);
-
+	MyFloat sum(rhs);
 	if (mantissa == rhs.mantissa && exponent == rhs.exponent && sign != rhs.sign)	//opposite but equal case
 	{
-			this.exponent == 0;
-			this.mantissa == 0;
-			return *this;
+			sum.exponent = 0;
+			sum.mantissa = 0;
+			return sum;
 	}
 
 	if ((exponent !=0 && mantissa != 0) && (rhs.exponent == 0 && rhs.mantissa == 0))	//if rhs == 0
 	{
-			return *this;
+			sum.sign = sign;
+			sum.exponent = exponent;
+			sum.mantissa = mantissa;
+			return sum;
 	}
 
 	else if ((exponent==0 && mantissa == 0) && (rhs.exponent != 0 && rhs.mantissa !=0))		//if lhs == 0
 	{
-			this.sign = rhs.sign;
-			this.exponent = rhs.exponent;
-			this.mantissa = rhs.mantissa;
-			return *this;
+			return sum;
 	}
 
 	if(rexp_1 < rexp_2) {
@@ -78,7 +78,7 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 			mant_2 = mant_2 * pow(2, diff);
 		else
 			mant_1 = mant_1 / pow(2, diff);			//if diff > 8 right shift mantissa of smaller number
-		exponent = rexp_2;
+		sum.exponent = rexp_2;
 	} 
 	else {
 		int diff = rexp_1 - rexp_2;
@@ -86,17 +86,18 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 			mant_1 = mant_1 * pow(2, diff);
 		else
 			mant_2 = mant_2 / pow(2,diff);
+		sum.exponent = rexp_1;
 	}
 	
 	
-	mantissa = mant_1 + mant_2;
+	sum.mantissa = mant_1 + mant_2;
 
 	if(carryWouldHappen(mant_1, mant_2)) {
-		mantissa = mantissa / 2;
-		++exponent;
+		sum.mantissa = sum.mantissa / 2;
+		sum.exponent++;
 	}
 
-	return *this;
+	return sum;
 }
 
 
