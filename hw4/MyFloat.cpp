@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-
+#include <bitset>
 #include "MyFloat.h"
 
 using namespace std;
@@ -46,20 +46,29 @@ ostream& operator<<(std::ostream &strm, const MyFloat &f){
 }
 
 
-
+MyFloat MyFloat::operator-(const MyFloat& rhs) const{
+	if (rhs.sign > 0)
+	{
+		
+	}
+	return *this;
+}
 
 MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 	unsigned int rexp_1 = exponent - 127, mant_1 = mantissa + pow(2, 23);
 	unsigned int rexp_2 = rhs.mantissa - 127, mant_2 = rhs.mantissa + pow(2, 23);
 	MyFloat sum(rhs);
+
+	cout << bitset<32>(mant_1).to_string() << " " << bitset<32>(mant_2).to_string()<<endl;
 	if (mantissa == rhs.mantissa && exponent == rhs.exponent && sign != rhs.sign)	//opposite but equal case
 	{
 			sum.exponent = 0;
 			sum.mantissa = 0;
+			sum.sign = 0;
 			return sum;
 	}
 
-	if ((exponent !=0 && mantissa != 0) && (rhs.exponent == 0 && rhs.mantissa == 0))	//if rhs == 0
+	if ((exponent !=0) && (rhs.exponent == 0))	//if rhs == 0
 	{
 			sum.sign = sign;
 			sum.exponent = exponent;
@@ -67,36 +76,53 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 			return sum;
 	}
 
-	else if ((exponent==0 && mantissa == 0) && (rhs.exponent != 0 && rhs.mantissa !=0))		//if lhs == 0
+	else if ((exponent==0) && (rhs.exponent != 0))		//if lhs == 0
 	{
 			return sum;
 	}
 
+	sum.mantissa = sum.mantissa + pow(2,23);
 	if(rexp_1 < rexp_2) {
 		int diff = rexp_2 - rexp_1;
 		if (diff <= 8)												//if diff <=8, left shift mantissa of larger number
+		{
 			mant_2 = mant_2 * pow(2, diff);
+			sum.exponent = rhs.exponent + diff;
+		}
 		else
-			mant_1 = mant_1 / pow(2, diff);			//if diff > 8 right shift mantissa of smaller number
-		sum.exponent = rexp_2;
+		{
+				mant_1 = mant_1 / pow(2, diff);			//if diff > 8 right shift mantissa of smaller number
+				sum.exponent = exponent - diff;
+		}
 	} 
 	else {
 		int diff = rexp_1 - rexp_2;
 		if (diff <= 8)
+		{
 			mant_1 = mant_1 * pow(2, diff);
+			sum.exponent = exponent + diff;
+		}
 		else
+		{
 			mant_2 = mant_2 / pow(2,diff);
-		sum.exponent = rexp_1;
+			sum.exponent = rhs.exponent - diff;
+		}
 	}
-	
-	
+
 	sum.mantissa = mant_1 + mant_2;
 
 	if(carryWouldHappen(mant_1, mant_2)) {
 		sum.mantissa = sum.mantissa / 2;
 		sum.exponent++;
 	}
-
+	int i =0;
+	for (int i = 31; i >=0; i--) 
+	{
+		mant_1 = mant_1 & (int) pow(2,i);
+	}
+	mant_1 = mant_1 - pow(2,i);
+	sum.mantissa = sum.mantissa >> 9;
+	cout << endl << bitset<32>(sum.mantissa).to_string() <<endl;
 	return sum;
 }
 
