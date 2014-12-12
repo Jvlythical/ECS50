@@ -65,6 +65,14 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 
 	//cout << rexp_1 << " " << rexp_2 << endl;
 	//cout << bitset<32>(mant_1).to_string() << " " << bitset<32>(mant_2).to_string() << endl;
+	
+	if(mant_1 == mant_2 && sum.sign != sign && !rexp_diff) {
+		sum.exponent = 0;
+		sum.mantissa = 0;
+		sum.sign = 0;
+
+		return sum;
+	}
 
 	if(rexp_diff <= 8) {
 		if(rexp_1 > rexp_2) mant_1 = mant_1 << rexp_diff;
