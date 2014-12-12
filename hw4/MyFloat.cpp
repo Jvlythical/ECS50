@@ -49,7 +49,8 @@ ostream& operator<<(std::ostream &strm, const MyFloat &f){
 
 MyFloat MyFloat::operator-(const MyFloat& rhs) const{
 	MyFloat diff(rhs);
-	diff.sign = ~diff.sign;
+	if(diff.sign == 1)diff.sign = 0;
+	else diff.sign = 1;
 
 	return operator+(diff);
 }
@@ -66,6 +67,8 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 	//cout << rexp_1 << " " << rexp_2 << endl;
 	//cout << bitset<32>(mant_1).to_string() << " " << bitset<32>(mant_2).to_string() << endl;
 	
+	if(exponent == 0) return sum;
+	if(sum.exponent == 0) return *this;
 	if(mant_1 == mant_2 && sum.sign != sign && !rexp_diff) {
 		sum.exponent = 0;
 		sum.mantissa = 0;
@@ -74,7 +77,7 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 		return sum;
 	}
 
-	if(rexp_diff <= 8) {
+	if(rexp_diff < 8) {
 		if(rexp_1 > rexp_2) mant_1 = mant_1 << rexp_diff;
 		else mant_2 = mant_2 << rexp_diff;
 	}
@@ -87,11 +90,19 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 	//cout << bitset<32>(mant_1).to_string() << " " << bitset<32>(mant_2).to_string() << endl;
 		
 	if(sign == sum.sign) {
+		if(carryWouldHappen(mant_1, mant_2)) {
+			// Stuff
+		}
+
 		sum.mantissa = mant_1 + mant_2;
 		for(i = 31; i >= 0; i--) if(max(mant_1, mant_2) & (int) pow(2, i)) break;	
 		if(sum.mantissa & (int) pow(2, i + 1)) ++bias;
 	}
 	else {
+		if(carryWouldHappen(mant_1, mant_2)) {
+			// Stuff
+		}
+
 		sum.mantissa = max(mant_1, mant_2) - min(mant_1, mant_2);
 		if (rexp_2 < rexp_1) sum.sign = sign;
 		if(rexp_diff == 0 && mant_2 < mant_1) sum.sign = sign; 
