@@ -1,3 +1,5 @@
+#!/opt/python3/bin/python3
+
 #this is the base class for tester objects
 import subprocess
 import logging
