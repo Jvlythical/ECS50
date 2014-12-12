@@ -1,26 +1,14 @@
   #include <cstdlib>
   #include <iostream>
   #include "MyFloat.h"
-#include <string>
-
   using namespace std;
 
   int main(int argc, char** argv){
     float f1, f2;
-	char a[255];
     //float fres;
     MyFloat mfres;
- 
- 	if(argc == 4) {
-		cin >> a;
-		cin >> argv[2];
-		cin >> argv[3];
-		argc = 4;
-
-	}
-
-	argv[1] = a;
-	
+    
+    cout.precision(1000);
     if(argc != 4){
       cout<< "Usage: " << argv[0] << " float_a +/- float_b" << endl;
     } else{
@@ -29,9 +17,8 @@
 
     	MyFloat mf1(f1);
     	MyFloat mf2(f2);
-
     	cout << mf1 << ' '<< argv[2][0] << ' ' << mf2 << endl;
-
+    	
     	if(argv[2][0] == '+'){ //addition
     		//fres = f1 + f2;
     		mfres = mf1.operator+(mf2);

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <bitset>
-#include <cstdlib>
 #include <algorithm>
 
 #include "MyFloat.h"
@@ -49,31 +48,50 @@ ostream& operator<<(std::ostream &strm, const MyFloat &f){
 }
 
 MyFloat MyFloat::operator-(const MyFloat& rhs) const{
-	return *this;
+	MyFloat diff(rhs);
+	diff.sign = ~diff.sign;
+
+	return operator+(diff);
 }
 
 MyFloat MyFloat::operator+(const MyFloat& rhs) const{
+
 	MyFloat sum(rhs);
-	unsigned int rexp_1 = exponent - 127, mant_1 = mantissa + pow(2, 23);
-	unsigned int rexp_2 = sum.exponent - 127, mant_2 = sum.mantissa + pow(2, 23);
-	int i = 0, bias;
 
-	if(rexp_2 - rexp_1 <= 8) mant_2 = mant_2 << (rexp_2 - rexp_1);
-	else mant_1 = mant_1 >> (rexp_2 - rexp_1);
-	if(rexp_2 > rexp_1) bias = rexp_2;
-	else bias = rexp_1;
-	
-	sum.mantissa = mant_1 + mant_2;
+	unsigned int mant_1 = mantissa + pow(2, 23), mant_2 = sum.mantissa + pow(2, 23);
+	int rexp_1 = exponent - 127, rexp_2 = sum.exponent - 127;
+	int bias = max(rexp_1, rexp_2);
+	int i = 0, rexp_diff = abs((int) rexp_2 - (int) rexp_1);
 
-	for(i = 31; i >= 0; i--) {
-		int flag = max(mant_1, mant_2) & (int) pow(2, i); 
-		if(flag) break;	
+	//cout << rexp_1 << " " << rexp_2 << endl;
+	//cout << bitset<32>(mant_1).to_string() << " " << bitset<32>(mant_2).to_string() << endl;
+
+	if(rexp_diff <= 8) {
+		if(rexp_1 > rexp_2) mant_1 = mant_1 << rexp_diff;
+		else mant_2 = mant_2 << rexp_diff;
+	}
+	else {
+		if(rexp_1 < rexp_2) mant_1 = mant_1 >> rexp_diff;
+		else mant_2 = mant_2 >> rexp_diff;
 	}
 	
-	if(sum.mantissa & (int) pow(2, i + 1)) ++bias;
-	
+	//cout << rexp_diff << endl;	
+	//cout << bitset<32>(mant_1).to_string() << " " << bitset<32>(mant_2).to_string() << endl;
+		
+	if(sign == sum.sign) {
+		sum.mantissa = mant_1 + mant_2;
+		for(i = 31; i >= 0; i--) if(max(mant_1, mant_2) & (int) pow(2, i)) break;	
+		if(sum.mantissa & (int) pow(2, i + 1)) ++bias;
+	}
+	else {
+		sum.mantissa = max(mant_1, mant_2) - min(mant_1, mant_2);
+		if (rexp_2 < rexp_1) sum.sign = sign;
+		if(rexp_diff == 0 && mant_2 < mant_1) sum.sign = sign; 
+		for(i = 31; i >= 0; i--) if(max(mant_1, mant_2) & (int) pow(2, i)) break;	
+		if((sum.mantissa & (int) pow(2, i)) == 0) --bias;
+	}
+
 	for(i = 31; i >= 0; i--) if(sum.mantissa & (int) pow(2, i)) break; 
-	
 	sum.mantissa = (sum.mantissa - (int) pow(2, i)) >> (i - 23) ; 
 	sum.exponent = bias + 127;
 
