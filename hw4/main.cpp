@@ -2,6 +2,7 @@
   #include <iostream>
   #include "MyFloat.h"
 	#include <iomanip>
+	#include <cstdio>
 
   using namespace std;
 
@@ -30,7 +31,7 @@
     	MyFloat mf1(f1);
     	MyFloat mf2(f2);
 
-    	cout << fixed << setprecision(20)<< mf1 << ' '<< argv[2][0] << ' ' << mf2 << endl;
+    	cout << fixed << mf1 << ' '<< argv[2][0] << ' ' << mf2 << endl;
 
     	if(argv[2][0] == '+'){ //addition
     		//fres = f1 + f2;

@@ -90,20 +90,13 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 	//cout << bitset<32>(mant_1).to_string() << " " << bitset<32>(mant_2).to_string() << endl;
 		
 	if(sign == sum.sign) {
-		if(carryWouldHappen(mant_1, mant_2)) {
-			// Stuff
-		}
-
 		sum.mantissa = mant_1 + mant_2;
 		for(i = 31; i >= 0; i--) if(max(mant_1, mant_2) & (int) pow(2, i)) break;	
 		if(sum.mantissa & (int) pow(2, i + 1)) ++bias;
 	}
 	else {
-		if(carryWouldHappen(mant_1, mant_2)) {
-			// Stuff
-		}
-
 		sum.mantissa = max(mant_1, mant_2) - min(mant_1, mant_2);
+
 		if (rexp_2 < rexp_1) sum.sign = sign;
 		if(rexp_diff == 0 && mant_2 < mant_1) sum.sign = sign; 
 		for(i = 31; i >= 0; i--) if(max(mant_1, mant_2) & (int) pow(2, i)) break;	
@@ -116,7 +109,6 @@ MyFloat MyFloat::operator+(const MyFloat& rhs) const{
 		sum.mantissa &= ~(1 << i);
 		sum.mantissa = sum.mantissa << (23 - i);
 	}
-
 	sum.exponent = bias + 127;
 
 	//cout << "Exponent: " << sum.exponent << endl;

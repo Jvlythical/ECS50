@@ -72,6 +72,8 @@ class Tester(object):
     @cmdArgs: a list of additional command line arguments to the executbale
     @lines2skip: number of lines of output program and solution file to skip
     """
+
+
     self.executable = executable
     self.inputType = inputType
     self.outputType = outputType
